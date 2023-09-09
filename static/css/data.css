@@ -1,0 +1,31 @@
+.flex-container {
+    display: -webkit-box;
+    /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;
+    /* TWEENER - IE 10 */
+    display: -webkit-flex;
+    /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;
+    /* NEW, Spec - Firefox, Chrome, Opera */
+    justify-content: center;
+    align-items: center;
+}
+
+.table td,
+.table th {
+    padding: .2rem;
+}
+.pay{
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    
+}
+.pay:hover{
+    opacity: 80;
+}
+.btn-primary.pay:hover{
+    font-weight: bold;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 65%, rgba(0,212,255,1) 100%);
+    /* opacity: ; */
+}
+
+

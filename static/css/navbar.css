@@ -1,0 +1,61 @@
+/* Styling for Logo */
+
+.nav-logo {
+    width: 150px;
+    color: white;
+    filter: invert(100) sepia(100) saturate(27) hue-rotate(264deg) brightness(96) contrast(102);
+}
+
+
+/* Styling for image bar */
+
+.image-bar {
+    /* background-color: rgba(238, 238, 238); */
+}
+
+.image-div {
+    position: relative;
+    width: 100%;
+    height: -webkit-fill-available;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;   
+}
+
+.image-div::before {
+    content: "";
+    background-image: url(/static/images/credit_card.png);
+    background-repeat: repeat;
+    background-position-x: center;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* opacity: inherit; */
+}
+
+.project-title {
+    position: relative;
+    color: #656565;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+/* Styling for special jumbotron and elements in it */
+
+h1,
+.jumbo p {
+    color: rgb(67, 108, 152);
+}
+
+.jumbo {
+    background-color: rgb(191, 208, 227);
+}

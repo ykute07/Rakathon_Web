@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Credit Card Fraud Detection</title>
+
+    <!-- CSS for Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS for Navbar/Footer/Page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+
+    <!-- CSS for current page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/data.css') }}">
+</head>
+
+<body>
+    <div class="container-fluid shadow rounded p-3">
+        
+        <!-- Navigation Bar -->
+        <!-- <div id="nav-placeholder" pagename="#data-li"></div> -->
+        <!-- Main Page Content -->
+        <div class="container p-0">
+            <!-- <button class="button button2">Demo</button> -->
+            <h1 class="w-50 mx-auto col-10 col-md-8 col-lg-6 ">Payment Gateway</h1>
+            <form class="w-50 mx-auto col-10 col-md-8 col-lg-6 mt-5" id="updateForm">
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label ht-5">Type</label>
+                    <select class="form-control w-100 form-select bg-white text-dark" id="type" aria-label="Default select example">
+                        <option selected class="text-dark"></option>
+                        <option value="1" class="text-dark">Cash-out</option>
+                        <option value="2" class="text-dark">Debit</option>
+                        <option value="3" class="text-dark">Payment</option>
+                        <option value="4" class="text-dark">Transfer</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label" >Amount</label>
+                  <input class="form-control" id="name" type="text" >
+                </div>
+                <div class="mb-3">
+                    <!-- <label for="exampleInputPassword1" class="form-label text-success" name="sname" id="sname" value="1000">Recipient Current Balance</label> -->
+                    <label for="dynamicValue" class="text-success">Recipient Current Balance:</label>
+                    <span id="dynamicValue" class="text-success">100000</span><br><br>
+                </div>
+                <div id="output"></div>
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" required id="agree">
+                  <label class="form-check-label" for="exampleCheck1">I Agree <p>"Terms & Conditions Apply" </p> </label>
+                </div>
+                <button type="submit" data-toggle="modal" data-target="#exampleModal" id="payButton" id="updateForm" id="showToastButton" class="pay btn btn-primary w-100" onclick="subtractAge()">Pay</button>
+              </form>
+              
+                
+              </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div  class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title justify-content-start" id="exampleModalLabel">Status</h5>
+              
+              
+              <!-- <h5 type="text" class="text-end fw-bold text-success">Non-Fraudulent</p> -->
+              <button type="button" class="close text-dark bg-dark" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-dark">
+              <p  id="reponsemsg" class="text-dark fw-bold">Data loading....</p>
+            </div>
+            <div class="modal-footer">
+            <button disabled class="btn border-0 shadow-none justify-content-end text-danger mr-2 fw-bold"  id="fraud"></button>
+              <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+              
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- <div class="toast show">
+        <div class="toast-header">
+          Toast Header
+          <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+          Some text inside the toast body
+        </div>
+      </div> -->
+
+    <!-- Scripts for JQuery, Bootstrap and D3.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    
+    <!-- Scripts for navbar and footer -->
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+    
+    <!-- Script for current page -->
+    <script src="{{ url_for('static', filename='js/data.js') }}"></script>
+    <!-- <script src="data.js"></script> -->
+    <!-- <script>
+        function getInputValue() {
+          var inputValue = document.getElementById("textInput1").value;
+          document.getElementById("output").innerHTML = inputValue;
+        }
+      </script> -->
+      <script>
+        var responseData 
+         var data = {
+                types: 1,
+                amount: 0,
+                oldbalanceorig: 0,
+                newbalanceorig:0,
+                oldbalancedest:60000,
+                newbalancedest:0,
+                isflaggedfraud:1,
+                token:'awiP3PuvPIIGtSokGOZZkixpyM5PGANSiIrV5CJ88ZWtQYdtppJMthMp1gyoOHr3C9N9-A.'
+            };
+
+        const agreeCheckbox = document.getElementById('agree');
+        const payButton = document.getElementById('payButton');
+        var url = 'https://frauddetection-g66c.onrender.com/register';
+        // Add an event listener to the checkbox
+        agreeCheckbox.addEventListener('change', function() {
+            // Enable or disable the button based on checkbox state
+            payButton.disabled = !this.checked;
+        });
+        async function postData(url, data) {
+    try {
+        console.log(data)
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            mode: 'cors',
+            body: JSON.stringify(data)
+        });
+
+
+        responseData = await response.json();
+        var test1=document.getElementById('fraud');
+        test1.innerText=responseData.result
+
+        var test2 =document.getElementById('reponsemsg')
+        test2.innerText=responseData.bard_response
+
+        console.log('Success:', responseData);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+  
+// const data = { key: 'value' };
+        document.getElementById('updateForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // console.log('sdfjkh')
+            var type = document.getElementById('type').value;
+            data.types=type
+            var cur_amount = document.getElementById('name').value;
+            var outputDiv = document.getElementById('output');
+            // var oldVal = outputDiv;
+            // outputDiv.innerHTML = `${outputDiv}`;
+            
+            var x = parseInt(cur_amount);
+            data.amount=x;
+            data.newbalancedest=x+data.oldbalancedest;
+            check= postData(url, data);
+            
+            // data.newbalancedest = Intege
+            // data.oldbalancedest=outputDiv;
+            // Define the URL and data for the POST request
+           
+           
+// {
+    // "types":1,
+    // "amount":65000,
+    // "oldbalanceorig":65000,
+    // "newbalanceorig":0,
+    // "oldbalancedest":0,
+    // "newbalancedest":65000,
+    // "isflaggedfraud":1
+//   }
+            // Make the POST request using fetch
+            
+     
+
+         
+
+
+        });
+
+        
+
+// Example usage
+
+
+
+
+
+         function subtractAge() {
+            // Get the dynamic value
+            var dynamicValue = parseInt(document.getElementById('dynamicValue').textContent);
+
+            // Get the entered age
+            var val = parseInt(document.getElementById('name').value);
+
+            // Subtract the age
+            dynamicValue -= val;
+            var oldVal = dynamicValue + val;
+            // Update the dynamic value on the page
+            document.getElementById('dynamicValue').textContent = dynamicValue;
+            data.newbalanceorig=dynamicValue
+            data.oldbalanceorig = oldVal;
+            console.log(data)
+        }
+
+        
+        document.getElementById('showToastButton').addEventListener('click', function() {
+            // Show the toast
+            var toast = new bootstrap.Toast(document.getElementById('myToast'));
+            toast.show();
+        });
+    
+
+    </script>
+    <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Toast Header</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            This is the content of the toast.
+        </div>
+    </div>
+</body>
+
+</html>

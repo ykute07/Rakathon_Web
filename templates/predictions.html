@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Credit Card Fraud Detection</title>
+
+    <!-- CSS for Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <!-- CSS for Navbar/Footer/Page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+
+    <!-- CSS for current page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/predictions.css') }}">
+</head>
+
+<body>
+    <div class="container-fluid p-3">
+        <!-- Navigation Bar -->
+        <div id="nav-placeholder" pagename="#predictions-li"></div>
+        <!-- Main Page Content -->
+        <div class="container p-0">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#explore">Data Exploration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#ml">Machine Learning Models</a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade  active show in" id="explore">
+                    <div class="container mt-3">
+                        <div id="accordion" class="accordion">
+                            <div class="card mb-0">
+                                <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne">
+                                    <a class="card-title">
+                                        Data Imbalance
+                                    </a>
+                                </div>
+                                <div id="collapseOne" class="card-body collapse">
+                                    <p class="text-justify mt-4">It is evident from the below plot that data is highly imbalanced. The dataset has only 492 fraudulent transactions out of a total of 284,807 transactions, which is a mere 0.17%.</p>
+                                    <div class="text-center">
+                                        <img src="../static/images/predictions_page_images/data_exploration_1.png " class="img-thumbnail " />
+                                    </div>
+                                </div>
+                                
+                                <div id="collapseThree" class="card-body collapse">
+                                    <p class="text-justify mt-4">It is evident from the below boxplots that median and maximum transaction amount for fraudulent transactions were low compared to genuine transactions.</p>
+                                    <div class="text-center">
+                                        <img src="../static/images/predictions_page_images/data_exploration_3.png " class="img-thumbnail " />
+                                        <img src="../static/images/predictions_page_images/data_exploration_4.png " class="img-thumbnail " />
+                                    </div>
+                                </div>
+                               
+                                <div id="collapseFour" class="collapse">
+                                    <div class="card-body">
+                                        <p class="text-justify">We could observe from the below correlation matrix that there is no correlation between features V1-V28 and there are direct and inverse correlations between the following features:</p>
+                                        <div class="row">
+                                            <div class="col-auto">
+                                                <table class="table table-hover table-bordered table-condensed" style="width:100%">
+                                                    <thead class="table-secondary">
+                                                        <th class="p-0"></th>
+                                                        <th class="text-center p-0">Time</th>
+                                                        <th class="text-center p-0">Amount</th>
+                                                        <th class="text-center p-0">Class</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Inverse Correlation</th>
+                                                            <td class="p-0 pl-2 pr-2">V3, V11, V25</td>
+                                                            <td class="p-0 pl-2 pr-2">V2, V5, V1, V3</td>
+                                                            <td class="p-0 pl-2 pr-2">V17, V14, V12, V10, V7, V3, V16</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Direct Correlation</th>
+                                                            <td class="p-0 pl-2 pr-2">V5, V22</td>
+                                                            <td class="p-0 pl-2 pr-2">V7, V20</td>
+                                                            <td class="p-0 pl-2 pr-2">V4, V11</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mb-5">
+                                        <img src="../static/images/predictions_page_images/data_exploration_5.png " class="img-thumbnail " style="width:65%;height:65%" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="ml">
+                    <div class="container mt-3">
+                        <div id="accordion" class="accordion">
+                            <div class="card mb-0">
+                                <div class="card-header collapsed" data-toggle="collapse" href="#collapseProcessFlow">
+                                    <a class="card-title">
+                                        Process Flow
+                                    </a>
+                                </div>
+                                <div id="collapseProcessFlow" class="card-body collapse" data-parent="#accordion">
+                                    <div class="text-center mt-3">
+                                        <img src="../static/images/predictions_page_images/ML_Model_Flow_Chart.png " class="img-thumbnail " style="width:90%;" />
+                                    </div>
+                                </div>
+                                <div class="card-header collapsed" data-toggle="collapse" href="#collapseImbalance">
+                                    <a class="card-title">
+                                        Handling Data Imbalance
+                                    </a>
+                                </div>
+                                <div id="collapseImbalance" class="card-body collapse" data-parent="#accordion">
+                                    <div class="text-center mt-3">
+                                        <img src="../static/images/predictions_page_images/Undersampling_Oversampling.png" class="img-thumbnail " style="width:90%;" />
+                                    </div>
+                                    <section class="mt-3">
+                                        <h4>Near Miss Undersampling Method</h4>
+                                        <ul>
+                                            <li>
+                                                <p class="text-justify">Near Miss Undersampling method was used to create an undersampled dataset with 492 transactions for both Classes 0 and 1.</p>
+                                            </li>
+                                            <li>
+                                                <p class="text-justify">Though the recall score was high for almost all the models, the precision score was minimal, making the Near Miss Undersampling method not a good option.</p>
+                                                <table class="table table-hover table-bordered table-condensed" style="width:100%">
+                                                    <thead class="table-secondary">
+                                                        <th class="p-0"></th>
+                                                        <th class="p-0 pl-2 pr-2">Precision Score</th>
+                                                        <th class="p-0 pl-2 pr-2">Recall Score</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Logical Regression</th>
+                                                            <td class="p-0 pl-2 pr-2">0.001727588749604972</td>
+                                                            <td class="p-0 pl-2 pr-2">1.0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Random Forest</th>
+                                                            <td class="p-0 pl-2 pr-2">0.001727485630620034</td>
+                                                            <td class="p-0 pl-2 pr-2">1.0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Multinomial Naive Bayes</th>
+                                                            <td class="p-0 pl-2 pr-2">0.0017909404621500023</td>
+                                                            <td class="p-0 pl-2 pr-2">1.0</td>
+                                                        </tr>
+                                                        
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Decision Tree</th>
+                                                            <td class="p-0 pl-2 pr-2">0.0017297935849972048</td>
+                                                            <td class="p-0 pl-2 pr-2">1.0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Gradient Boost</th>
+                                                            <td class="p-0 pl-2 pr-2">0.0017279103172401198</td>
+                                                            <td class="p-0 pl-2 pr-2">1.0</td>
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">SVM</th>
+                                                            <td class="p-0 pl-2 pr-2">0.0017277282831226932</td>
+                                                            <td class="p-0 pl-2 pr-2">1.0</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </li>
+                                        </ul>
+                                        <h4>Condensed Nearest Neighbor Rule Undersampling Method</h4>
+                                        <ul>
+                                            <li>
+                                                <p class="text-justify">Condensed Nearest Neighbor Rule Undersampling method was used to create an undersampled dataset with 492 transactions for Class 1 and 2804 transactions for Class 0.</p>
+                                            </li>
+                                            <li>
+                                                <p class="text-justify">We could notice that there is no model where Precision and Recall Scores were high. If the precision score is high, the model seems to have a low recall score and vice versa., making the Condensed Nearest
+                                                    Neighbor Rule Undersampling method, not a good option.</p>
+                                                <table class="table table-hover table-bordered table-condensed" style="width:100%">
+                                                    <thead class="table-secondary">
+                                                        <th class="p-0"></th>
+                                                        <th class="p-0 pl-2 pr-2">Precision Score</th>
+                                                        <th class="p-0 pl-2 pr-2">Recall Score</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Logical Regression</th>
+                                                            <td class="p-0 pl-2 pr-2">0.004377299668304</td>
+                                                            <td class="p-0 pl-2 pr-2">0.9817073170731707</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Random Forest</th>
+                                                            <td class="p-0 pl-2 pr-2">0.001775519483800189</td>
+                                                            <td class="p-0 pl-2 pr-2">1.0</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Multinomial Naive Bayes</th>
+                                                            <td class="p-0 pl-2 pr-2">0.0</td>
+                                                            <td class="p-0 pl-2 pr-2">0.0</td>
+                                                        </tr>
+                                                    
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Decision Tree</th>
+                                                            <td class="p-0 pl-2 pr-2">0.002820509662401005</td>
+                                                            <td class="p-0 pl-2 pr-2">0.9308943089430894</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">Gradient Boost</th>
+                                                            <td class="p-0 pl-2 pr-2">0.002350038188120557</td>
+                                                            <td class="p-0 pl-2 pr-2">0.975609756097561</td>
+                                                        </tr>
+                                                   
+                                                        <tr>
+                                                            <th class="p-0 pl-2 pr-2 table-secondary">SVM</th>
+                                                            <td class="p-0 pl-2 pr-2">0.0017326994189117801</td>
+                                                            <td class="p-0 pl-2 pr-2">1.0</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </li>
+                                        </ul>
+                                        <p class="text-justify">As can be seen, none of the Undersampling methods mentioned above performed well on our dataset.</p>
+                                    </section>
+                                    <section class="mt-3">
+                                        <h4>Synthetic Minority Oversampling Technique (SMOTE)</h4>
+                                        <ul>
+                                            <li>
+                                                <p class="text-justify">SMOTE Oversampling method was used to create an oversampled dataset with 284315 transactions for both Classes 0 and 1.</p>
+                                            </li>
+                                            <li>
+                                                <p class="text-justify">RandomForestClassifier with SMOTE had the highest Precision and Recall scores when evaluated against the original dataset.</p>
+                                            </li>
+                                            <table class="table table-hover table-bordered table-condensed" style="width:100%">
+                                                <thead class="table-secondary">
+                                                    <th class="p-0"></th>
+                                                    <th class="p-0 pl-2 pr-2">Precision Score</th>
+                                                    <th class="p-0 pl-2 pr-2">Recall Score</th>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="p-0 pl-2 pr-2 table-secondary">Random Forest Classifier</th>
+                                                        <td class="p-0 pl-2 pr-2">0.9312977099236641</td>
+                                                        <td class="p-0 pl-2 pr-2">0.991869918699187</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="p-0 pl-2 pr-2 table-secondary">Decision Tree Classifier</th>
+                                                        <td class="p-0 pl-2 pr-2">0.5804878048780487</td>
+                                                        <td class="p-0 pl-2 pr-2">0.967479674796748</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="p-0 pl-2 pr-2 table-secondary">Gradient Boost Classifier</th>
+                                                        <td class="p-0 pl-2 pr-2">0.23156266116554924</td>
+                                                        <td class="p-0 pl-2 pr-2">0.9126016260162602</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="p-0 pl-2 pr-2 table-secondary">Ada Boost Classifier</th>
+                                                        <td class="p-0 pl-2 pr-2">0.192090395480226</td>
+                                                        <td class="p-0 pl-2 pr-2">0.8983739837398373</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </ul>
+                                        <div class="row">
+                                            <h5></h5>
+                                            <div class="col-md-6">
+                                                <h6>RandomForestClassifier with SMOTE - Precision Recall Curve</h6>
+                                                <div class="thumbnail text-center">
+                                                    <img class="img-responsive" src="../static/images/predictions_page_images/SMOTE_PRC.png" alt="RandomForestClassifier with SMOTE - Precision Recall Curve" style="height:375px;">
+                                                    <div class="caption">
+                                                        <p class="mb-0">Recall Score: 0.991869918699187<br>Precision Score: 0.9312977099236641</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6>RandomForestClassifier with SMOTE - Confusion Matrix</h6>
+                                                <div class="thumbnail text-center">
+                                                    <img class="img-responsive" src="../static/images/predictions_page_images/SMOTE_CM.png" alt="RandomForestClassifier with SMOTE - Confusion Matrix" style="height:375px;">
+                                                    <div class="caption">
+                                                        <p class="mb-0">RandomForestClassifier with SMOTE<br>Confusion Matrix</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                             
+                                <div id="collapseRecallComparison" class="card-body collapse" data-parent="#accordion">
+                                    <div class='tableauPlaceholder' id='viz1613707547908' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;Recall_Scores_Comparison&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'
+                                            style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Recall_Scores_Comparison&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;Recall_Scores_Comparison&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en' /><param name='filter' value='publish=yes' /></object></div>
+                                    <script type='text/javascript'>
+                                        var divElement = document.getElementById('viz1613707547908');
+                                        var vizElement = divElement.getElementsByTagName('object')[0];
+                                        if (divElement.offsetWidth > 800) {
+                                            vizElement.style.width = '1366px';
+                                            vizElement.style.height = '795px';
+                                        } else if (divElement.offsetWidth > 500) {
+                                            vizElement.style.width = '1366px';
+                                            vizElement.style.height = '795px';
+                                        } else {
+                                            vizElement.style.width = '100%';
+                                            vizElement.style.height = '727px';
+                                        }
+                                        var scriptElement = document.createElement('script');
+                                        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                                        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+                                    </script>
+                                </div>
+                            
+                                <div id="collapseRecallPrecision" class="card-body collapse" data-parent="#accordion">
+                                    <div style="display: flex; justify-content: center;">
+                                        <div id="summaryPlot"></div>
+                                    </div>
+                                </div>
+                                
+                                <div id="collapseFuture" class="collapse" data-parent="#accordion">
+                                    <div class="card-body">
+                                        <p class="text-justify mb-5">While we could not reach out the goal of 100% accuracy in fraud detection, we created a model that can get very close to that goal with enough time and data. As with any such project, there is room for improvement.
+                                            This project's very nature allows integrating multiple models and their results to increase the final result's accuracy. As part of this project, we trained and evaluated only four predictive models on oversampled
+                                            SMOTE dataset. We could try training more predictive models on oversampled SMOTE datasets and further improve their performance using Grid Search to tune the model's hyperparameters. Also, the models' performance
+                                            increases when the size of the dataset increases. So having more data will make the model more accurate in detecting frauds and reduce the number of false negatives.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <!-- <div class="text-center" id="footer-placeholder"></div> -->
+    </div>
+
+    <!-- Scripts for JQuery, Bootstrap and D3.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Scripts for navbar and footer -->
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+
+    <!-- Script for current page -->
+    <script src="{{ url_for('static', filename='js/predictions.js') }}"></script>
+
+</body>
+
+</html>
